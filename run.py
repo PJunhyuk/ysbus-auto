@@ -113,6 +113,6 @@ if __name__ == "__main__":
     parser.add_argument('--bus_reason', type=str, default='강의', help='reason')
 
     args = parser.parse_args()
-    print(args)
+    # print(args)
 
     main(args)
