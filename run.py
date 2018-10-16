@@ -120,59 +120,73 @@ def main(args):
 
         # 3초에 한 번씩 체크
         time.sleep(3)
-        print('listening... ' + str(datetime.datetime.now()))
 
-        # check today's date VS target_list
-        if target_date.toordinal() - 2 == datetime.datetime.now().toordinal(): ## Lets book it!
-            if datetime.datetime.now().hour == 14:
+        for i in range(len(bus_target_list)):
 
-                ## chromedriver
-                driver = webdriver.Chrome('./chromedriver')
-                driver.implicitly_wait(1)
-                driver.get('https://ysweb.yonsei.ac.kr/ysbus.jsp')
+            bus_target_args = bus_target_list[i].split('_')
 
-                # 아이디 비밀번호 입력
-                driver.find_element_by_name('userid').send_keys(args.user_id)
-                driver.find_element_by_name('password').send_keys(args.user_pw)
+            target_date_year = int(bus_target_args[0][0:4])
+            target_date_month = int(bus_target_args[0][4:6])
+            target_date_day = int(bus_target_args[0][6:8])
 
-                # 로그인 버튼 클릭
-                driver.find_element_by_xpath('/html/body/div/div/div/div/form//h3/a').click()
+            target_date = datetime.date(target_date_year, target_date_month, target_date_day)
 
-                #### 로그인 완료!
+            # check today's date VS target_list
+            if target_date.toordinal() - 2 == datetime.datetime.now().toordinal(): ## Lets book it!
 
-                # 예약 페이지로 이동
-                driver.get('https://ysweb.yonsei.ac.kr/busTest/index2.jsp')
+                if datetime.datetime.now().hour == 14:
 
-                # 방향 설정
-                if target_way == 2:
-                    driver.find_element_by_css_selector('.ty2 li:nth-child(2) a').click()
-                else:
-                    driver.find_element_by_css_selector('.ty2 li:nth-child(1) a').click()
+                    ## chromedriver
+                    driver = webdriver.Chrome('./chromedriver')
+                    driver.implicitly_wait(1)
+                    driver.get('https://ysweb.yonsei.ac.kr/ysbus.jsp')
 
-                # 날짜 설정
-                el = driver.find_element_by_id('selectedDate')
-                for option in el.find_elements_by_tag_name('option'):
-                    if target_day in option.text:
-                        option.click()
-                        break
+                    # 아이디 비밀번호 입력
+                    driver.find_element_by_name('userid').send_keys(args.user_id)
+                    driver.find_element_by_name('password').send_keys(args.user_pw)
 
-                # 예약사유 설정
-                el = driver.find_element_by_css_selector('table.display tr:nth-child(' + str(target_bus) + ') .selectedReason')
-                for option in el.find_elements_by_tag_name('option'):
-                    if args.bus_reason in option.text:
-                        option.click()
-                        break
+                    # 로그인 버튼 클릭
+                    driver.find_element_by_xpath('/html/body/div/div/div/div/form//h3/a').click()
 
-                # 신청 버튼 클릭
-                driver.find_element_by_css_selector('table.display tr:nth-child(' + str(target_bus) + ') td:last-child a').click()
+                    #### 로그인 완료!
 
-                # alert 창 확인
-                driver.switch_to_alert().accept()
+                    # 예약 페이지로 이동
+                    driver.get('https://ysweb.yonsei.ac.kr/busTest/index2.jsp')
 
-                print(target_date, '(', target_day, ')', target_way_print, '-', bus_target_args[2], '완료!')
-                print(datetime.datetime.now())
+                    # 방향 설정
+                    if target_way == 2:
+                        driver.find_element_by_css_selector('.ty2 li:nth-child(2) a').click()
+                    else:
+                        driver.find_element_by_css_selector('.ty2 li:nth-child(1) a').click()
 
-                del bus_target_list[i]
+                    # 날짜 설정
+                    el = driver.find_element_by_id('selectedDate')
+                    for option in el.find_elements_by_tag_name('option'):
+                        if target_day in option.text:
+                            option.click()
+                            break
+
+                    # 예약사유 설정
+                    el = driver.find_element_by_css_selector('table.display tr:nth-child(' + str(target_bus) + ') .selectedReason')
+                    for option in el.find_elements_by_tag_name('option'):
+                        if args.bus_reason in option.text:
+                            option.click()
+                            break
+
+                    # 신청 버튼 클릭
+                    driver.find_element_by_css_selector('table.display tr:nth-child(' + str(target_bus) + ') td:last-child a').click()
+
+                    # alert 창 확인
+                    driver.switch_to_alert().accept()
+
+                    print(target_date, '(', target_day, ')', target_way_print, '-', bus_target_args[2], '완료!')
+                    print(datetime.datetime.now())
+
+                    del bus_target_list[i]
+
+                    driver.Quit()
+
+            print('listening... ' + str(datetime.datetime.now()))
 
 
 if __name__ == "__main__":
