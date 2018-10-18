@@ -118,8 +118,8 @@ def main(args):
 
     while(1):
 
-        # 3초에 한 번씩 체크
-        time.sleep(3)
+        # 10초에 한 번씩 체크
+        time.sleep(10)
 
         for i in range(len(bus_target_list)):
 
@@ -184,7 +184,7 @@ def main(args):
 
                     del bus_target_list[i]
 
-                    driver.Quit()
+                    webdriver.Quit()
 
             print('listening... ' + str(datetime.datetime.now()))
 
