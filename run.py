@@ -186,7 +186,7 @@ def main(args):
 
                     webdriver.Quit()
 
-            print('listening... ' + str(datetime.datetime.now()))
+        print('listening... ' + str(datetime.datetime.now()))
 
 
 if __name__ == "__main__":
