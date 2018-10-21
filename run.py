@@ -72,6 +72,9 @@ def main(args):
                 target_bus = 18
             elif bus_target_args[2] == '2100':
                 target_bus = 19
+            else:
+                print(bus_target_list[i] + ': hour ERROR')
+                break
         else:
             if bus_target_args[2] == '0720':
                 target_bus = 1
@@ -105,6 +108,9 @@ def main(args):
                 target_bus = 17
             elif bus_target_args[2] == '1930':
                 target_bus = 19
+            else:
+                print(bus_target_list[i] + ': hour ERROR')
+                break
 
         ## ASSERT CHECK
 
@@ -184,7 +190,7 @@ def main(args):
 
                     del bus_target_list[i]
 
-                    webdriver.Quit()
+                    driver.quit()
 
         print('listening... ' + str(datetime.datetime.now()))
 
