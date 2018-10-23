@@ -13,10 +13,11 @@ def main(args):
     ## bus_target: string to list
 
     bus_target_list = args.bus_target.split(',')
-
-    print("TARGET!")
+    bus_complete = []
 
     for i in range(len(bus_target_list)):
+        bus_complete.append(False)
+
         bus_target_args = bus_target_list[i].split('_')
 
         target_date_year = int(bus_target_args[0][0:4])
@@ -129,6 +130,9 @@ def main(args):
 
         for i in range(len(bus_target_list)):
 
+            if bus_complete[i] == True:
+                break
+
             bus_target_args = bus_target_list[i].split('_')
 
             target_date_year = int(bus_target_args[0][0:4])
@@ -183,7 +187,7 @@ def main(args):
                     driver.find_element_by_css_selector('table.display tr:nth-child(' + str(target_bus) + ') td:last-child a').click()
 
                     # alert 창 확인
-                    driver.switch_to_alert().accept()
+                    driver.switch_to.alert()
 
                     print(target_date, '(', target_day, ')', target_way_print, '-', bus_target_args[2], '완료!')
                     print(datetime.datetime.now())
@@ -192,7 +196,12 @@ def main(args):
 
                     driver.quit()
 
+                    bus_complete[i] = True
+
+            print(bus_target_list[i], '-', bus_complete[i])
+
         print('listening... ' + str(datetime.datetime.now()))
+
 
 
 if __name__ == "__main__":
