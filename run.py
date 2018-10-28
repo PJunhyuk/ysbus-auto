@@ -131,7 +131,7 @@ def main(args):
         for i in range(len(bus_target_list)):
 
             if bus_complete[i] == True:
-                break
+                continue
 
             bus_target_args = bus_target_list[i].split('_')
 
@@ -187,12 +187,10 @@ def main(args):
                     driver.find_element_by_css_selector('table.display tr:nth-child(' + str(target_bus) + ') td:last-child a').click()
 
                     # alert 창 확인
-                    driver.switch_to.alert()
+                    driver.switch_to_alert().accept()
 
                     print(target_date, '(', target_day, ')', target_way_print, '-', bus_target_args[2], '완료!')
                     print(datetime.datetime.now())
-
-                    del bus_target_list[i]
 
                     driver.quit()
 
